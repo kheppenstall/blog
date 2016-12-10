@@ -92,7 +92,7 @@ Classes have a `name`, `enrollment` (integer), `id`.
   Class.sum(:enrollment)
   ```
 
-* ### `map` and `compact` (Ruby) to `joins` and `distinct`
+* #### `map` and `compact` (Ruby) to `joins` and `distinct`
 
   ```ruby
   # Find all students enrolled in one or more classes
