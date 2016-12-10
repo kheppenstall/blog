@@ -2,7 +2,7 @@
 
 ## Introduction
 
-In any web application, using Ruby to parse data after querying your database is extremely slow. I learned that the hard way. That is not what Ruby was built for. Instead we use ActiveRecord. But that means learning a whole new set of methods. This document is to help you learn the ActiveRecord equivalent of Ruby enumerables.
+In any web application, using Ruby to parse data after querying your database is extremely slow. I learned that the hard way. That is not what Ruby was built for. Instead we use ActiveRecord. But that means learning a whole new set of methods. This document is to help you learn the ActiveRecord equivalent of Ruby enumerables. Ruby enumerables to ActiveRecord query methods and calculations is not a 1 to 1 mapping. These should be considered as examples to help you learn ActiveRecord methods and figure out the best methods to use yourself.
 
 [Ruby Enumerables Documentation](https://ruby-doc.org/core-2.2.3/Enumerable.html)
 
@@ -46,65 +46,37 @@ Classes have a `name`, `enrollment` (integer), `id`.
 
 * #### `find_all` / `select` (Ruby) to `where` (ActiveRecord)
 
-  `# Find all students with the first name John`
-
-  Ruby
-
   ```ruby
-  Student.all.find_all {|student| student.first_name == 'John'}
-  ```
+  # Find all students with the first name John
 
-  ActiveRecord
+  # Ruby
+  Student.all.find_all {|student| student.first_name == 'John'}  
 
-  ```ruby
+  #ActiveRecord
   Student.where(name: 'John')
   ```
 
 * #### `sort_by` (Ruby) to `order` (ActiveRecord) with one argument
 
-  `# Sort students by last name`
-
-  Ruby
-
   ```ruby
-  Student.all.sort_by {|student| [student.last_name}
-  ```
+  # Sort students by last name
 
-  ActiveRecord
+  # Ruby
+  Student.all.sort_by {|student| student.last_name}
 
-  ```ruby
+  # ActiveRecord
   Student.order(:last_name)
-  ```
-
-* #### `sort_by` (Ruby) to `order` (ActiveRecord) with multiple arguments
-
-  `# Sort students by last name, then first name`
-
-  Ruby
-
-  ```ruby
-  Student.all.sort_by {|student| [student.last_name, student.first_name]}
-  ```
-
-  ActiveRecord
-
-  ```ruby
-  Student.order(:last_name, :first_name)
   ```
 
 * #### `map` (Ruby) to `pluck` (ActiveRecord)
 
-  `# List of first names of all students`
-
-  Ruby
-
   ```ruby
+  # List of first names of all students
+
+  #Ruby
   Student.all.map {|student| student.first_name}
-  ```
 
-  ActiveRecord
-
-  ```ruby
+  # ActiveRecord
   Student.pluck(:first_name)
   ```
 
@@ -112,11 +84,64 @@ Classes have a `name`, `enrollment` (integer), `id`.
 
   ```ruby
   # The sum of enrollments over all classes.
+
   # Ruby
   Class.all.reduce(0) {|sum, class| sum += class.enrollment}
+
   #ActiveRecord
   Class.sum(:enrollment)
   ```
+
+* ### `map` and `compact` (Ruby) to `joins` and `distinct`
+
+  ```ruby
+  # Find all students enrolled in one or more classes
+
+  #Ruby
+  Student.all.map {|student| student if student.classes.present?}.compact
+  
+  #ActiveRecord
+  Student.joins(:classes).includes(:classes).distinct
+  ```
+
+* #### `max_by` (Ruby) `maximum` (ActiveRecord)
+  ```ruby
+  # Find the class with the most students
+
+  # Ruby
+  Class.all.max_by {|class| class.enrollment}
+
+  # ActiveRecord
+  Class.maximum(:enrollment)
+  ```
+
+
+* #### `group_by` (Ruby) to `joins` and `group` (ActiveRecord)
+  ```ruby
+  # Return an array with teacher last name as key and number of students the teacher has as value 
+
+  #Ruby
+  Teacher.all.reduce(Hash.new(0)) do |name_to_students, teacher|
+    name_to_students[teacher.name] = teacher.students.count
+  end
+
+  # ActiveRecord
+  Teacher.joins(:students).group(:last_name).count(:id)
+  ```
+
+* #### `sort_by` (Ruby) to `order` (ActiveRecord) with multiple arguments
+
+  ```ruby
+  # Sort students by last name, then first name
+
+  #Ruby
+  Student.all.sort_by {|student| [student.last_name, student.first_name]}
+
+  # ActiveRecord
+  Student.order(:last_name, :first_name)
+  ```
+
+
 
 
 
