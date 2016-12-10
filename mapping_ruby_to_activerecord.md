@@ -110,17 +110,11 @@ Classes have a `name`, `enrollment` (integer), `id`.
 
 * #### `reduce` (Ruby) to `sum` (ActiveRecord)
 
-  `# The sum of enrollments over all classes.`
-
-  Ruby
-
   ```ruby
+  # The sum of enrollments over all classes.
+  # Ruby
   Class.all.reduce(0) {|sum, class| sum += class.enrollment}
-  ```
-
-  ActiveRecord
-
-  ```ruby
+  #ActiveRecord
   Class.sum(:enrollment)
   ```
 
