@@ -21,10 +21,12 @@ And here are our example relationships:
 ```ruby
 class Teacher 
   has_many :classes
+  has_many :students, through: :classes
 end
 
 class Student 
   has_many :classes
+  has_many :students, through: :classes
 end
 
 class Class 
