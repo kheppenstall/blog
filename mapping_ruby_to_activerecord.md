@@ -143,7 +143,15 @@ Classes have a `name`, `enrollment` (integer), `id`.
   Student.order(:last_name, :first_name)
   ```
 
+* #### `map` (Ruby) to `where` (ActiveRecord) when finding all execept
 
+  ```ruby
+  # Return all students not named Joe, John, or Maggie
+  first_names = ['Joe', 'John', 'Maggie']
 
+  #Ruby
+  Student.all.map {|student| student unless first_names.include?(student.first_name)}.compact
 
-
+  # ActiveRecord
+  Student.where.not(first_name: first_names)
+  ```
