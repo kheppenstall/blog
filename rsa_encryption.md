@@ -64,11 +64,13 @@ DIRECTIONS
 2. Use the formula `C = M^n mod e` to calcuate the encrypted message `C`.
 3. Write `C` on a note and pass it around.
 
+Note: Keep the value of `d` secret.
+
 #### Example
 
 The secret message we want to pass `M` is `10`.
 
-Given that our formula is `C = M^e mod n`, `e = 5`, and `n = 21`.
+Given that our formula is `C = M^e mod n`, and `e = 5` and `n = 21`.
 
     `C = 10^5 mod 21 = 19`
 
@@ -76,6 +78,24 @@ So the content of the secret note `C` is `19`.
 
 
 ### Read the Messages (Private Key To Decrypt Message)
+
+Finally the secret notes are coming in. We can assume everyone followed our directions when encrypting the message. To decrypt we use our private key, `n` and `d`. We will plug in the value of the secret message `C` into this formula to uncover the original secret message `M`.
+
+`M = C^d mod n`
+
+#### Example
+
+The encrypted message `C` is `19` (from the example above).
+
+To find the original message `M`, we use the formula `M = C^d mod n`, with `d = 17` and `n = 21`.
+
+    `M = 19^17 mod 21 = 10`
+
+We found `10`, the same number we started with!
+
+### Sum it Up
+
+Although middle school kids are not lining up to use RSA encryption to pass secret notes, RSA encryption is used extensively to transmit private data over the Internet. The public key `n` and `e` can be published and the private key `n` and `d` is nearly impossible to find when the starting primes `p` and `q` are large enough. This creates a useful one-way information track where anyone can encrypt but only the server-side with the private key can decrypt.
 
 
 
