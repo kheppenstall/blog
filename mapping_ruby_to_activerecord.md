@@ -2,7 +2,7 @@
 
 ## Introduction
 
-In any web application, using Ruby to parse data after querying your database is extremely slow. I learned that the hard way. That is not what Ruby was built for. Instead we use ActiveRecord. But that means learning a whole new set of methods. This document is to help you learn the ActiveRecord equivalent of Ruby enumerables. Ruby enumerables to ActiveRecord query methods and calculations is not a 1 to 1 mapping. These should be considered as examples to help you learn ActiveRecord methods and figure out the best methods to use yourself.
+In any web application, using Ruby to parse data after querying your database is extremely slow. I learned that the hard way. That is not what Ruby was built for. Instead, prefer ActiveRecord methods after your queries. But that means learning a whole new set of methods. This document is to help you learn the ActiveRecord equivalent of Ruby enumerables. Ruby enumerables to ActiveRecord query methods and calculations is not a 1 to 1 mapping. These should be considered as examples to help understand ActiveRecord methods and figure out the best methods to use yourself.
 
 [Ruby Enumerables Documentation](https://ruby-doc.org/core-2.2.3/Enumerable.html)
 
